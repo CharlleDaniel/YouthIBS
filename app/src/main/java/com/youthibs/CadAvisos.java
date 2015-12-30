@@ -16,8 +16,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.youthibs.Control.YouthControl;
+import com.youthibs.entidades.Aviso;
+
+import java.io.ByteArrayOutputStream;
 
 
 /**
@@ -28,10 +34,15 @@ public class CadAvisos extends AppCompatActivity {
 
     private static final int RESULT_LOAD_IMAGE =500 ;
     private Toolbar bar;
+    private YouthControl sistema;
+    private byte[] img;
+    private EditText textTitle;
+    private EditText textText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sistema=MainActivity.sistema;
         setContentView(R.layout.layout_cad_avisos);
         acessViews();
 
@@ -45,6 +56,9 @@ public class CadAvisos extends AppCompatActivity {
     }
     private void acessViews() {
         bar= (Toolbar)findViewById(R.id.bar);
+        textTitle= (EditText)findViewById(R.id.edTitle);
+        textText=(EditText)findViewById(R.id.edText);
+
     }
 
     @Override
@@ -60,7 +74,13 @@ public class CadAvisos extends AppCompatActivity {
 
         if(id == R.id.salvar){
 
-            showMessage("Salvo");
+            showMessage("Publicado");
+            Aviso aviso = new Aviso();
+            aviso.setTitle(textTitle.getText().toString().trim());
+            aviso.setText(textText.getText().toString().trim());
+            aviso.setFoto(img);
+            aviso.setId(sistema.getAvisos().size());
+            sistema.addAviso(aviso);
             super.finish();
 
         }if(id==android.R.id.home){
@@ -98,10 +118,14 @@ public class CadAvisos extends AppCompatActivity {
             Point size = new Point();
             display.getSize(size);
             Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
-            Bitmap resize= Bitmap.createScaledBitmap(bitmap, size.x, size.y/2, true);
+            Bitmap resize= Bitmap.createScaledBitmap(bitmap, size.x, size.y / 2, true);
 
             ImageView foto = (ImageView)findViewById(R.id.ivAviso);
             foto.setImageBitmap(resize);
+
+            ByteArrayOutputStream saida = new ByteArrayOutputStream();
+            resize.compress(Bitmap.CompressFormat.JPEG, 100, saida);
+            img = saida.toByteArray();
 
             // String picturePath contains the path of selected Image
         }

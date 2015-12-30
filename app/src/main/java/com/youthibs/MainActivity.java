@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.youthibs.Control.YouthControl;
 import com.youthibs.adapters.TabAdapters;
 import com.youthibs.extras.SlidingTabLayout;
 
@@ -20,15 +21,19 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private FloatingActionButton fab;
     private int tabposition;
+    public static YouthControl sistema;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sistema = new YouthControl(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         toolbar.setLogo(R.drawable.logo_menu);
         setSupportActionBar(toolbar);
+
         accessViews();
         mViewPager = (ViewPager) findViewById(R.id.vp_tabs);
         mViewPager.setAdapter(new TabAdapters(getSupportFragmentManager(), this));
@@ -61,11 +66,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (tabposition==0) {
-                    Intent it = new Intent(MainActivity.this, CadAvisos.class);
-                    startActivity(it);
+            if (tabposition==0) {
+                Intent it = new Intent(MainActivity.this, CadAvisos.class);
+                startActivity(it);
 
-                }
+            }
 
             }
         });
