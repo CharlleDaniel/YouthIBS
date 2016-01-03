@@ -1,99 +1,216 @@
 package com.youthibs;
 
 import android.content.Intent;
+import android.content.IntentSender;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.plus.Plus;
 import com.youthibs.Control.YouthControl;
-import com.youthibs.adapters.TabAdapters;
-import com.youthibs.extras.SlidingTabLayout;
+import com.youthibs.entidades.Usuario;
 
-public class MainActivity extends AppCompatActivity {
 
-    private SlidingTabLayout mSlidingTabLayout;
-    private ViewPager mViewPager;
-    private FloatingActionButton fab;
-    private int tabposition;
-    public static YouthControl sistema;
+public class MainActivity extends AppCompatActivity implements OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener  {
+
+    // VIEWS
+    private LinearLayout llContainerAll;
+    private ProgressBar pbContainer;
+    private RelativeLayout llConnected;
+    private TextView tvLogin;
+    private Button btNext;
+    private EditText edNomeEmpresa;
+    protected String mAccountName;
+
+    //Control
+    protected static YouthControl sistema;
+
+    //Drive Login
+
+    private static final int SIGN_IN_CODE = 56465;
+    private GoogleApiClient googleApiClient;
+    private ConnectionResult connectionResult;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sistema = new YouthControl(this);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("");
-        toolbar.setLogo(R.drawable.logo_menu);
-        setSupportActionBar(toolbar);
+        sistema = new YouthControl(getBaseContext());
 
         accessViews();
-        mViewPager = (ViewPager) findViewById(R.id.vp_tabs);
-        mViewPager.setAdapter(new TabAdapters(getSupportFragmentManager(), this));
 
-        mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.stl_tabs);
-        mSlidingTabLayout.setDistributeEvenly(true);
-        mSlidingTabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        mSlidingTabLayout.setSelectedIndicatorColors(ContextCompat.getColor(this, R.color.white));
-        mSlidingTabLayout.setCustomTabView(R.layout.custom_tab_view, R.id.imageView);
-        mSlidingTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
 
-            @Override
-            public void onPageSelected(int position) {
-                tabposition = position;
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
-        mSlidingTabLayout.setViewPager(mViewPager);
-
-    }
-    public void accessViews(){
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            if (tabposition==0) {
-                Intent it = new Intent(MainActivity.this, CadAvisos.class);
-                startActivity(it);
-
-            }
-
-            }
-        });
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if(sistema.getUsuarioLogado()!=null){
+            Intent it = new Intent(this,MenuPrincipal.class);
+            startActivity(it);
+            super.finish();
         }
 
-        return super.onOptionsItemSelected(item);
+        googleApiClient = new GoogleApiClient.Builder(MainActivity.this)
+                .addConnectionCallbacks(MainActivity.this)
+                .addOnConnectionFailedListener(MainActivity.this)
+                .addApi(Plus.API)
+                .addScope(Plus.SCOPE_PLUS_PROFILE)
+                .build();
+
+        showUi(false,true);
+
+    }
+
+    public void criaDiretorios(){
+        try {
+            if (!new java.io.File("/sdcard/SimpleERP").exists()) { // Verifica se o diretório existe.
+                (new java.io.File("/sdcard/SimpleERP")).mkdir();// Cria o diretório
+                (new java.io.File("/sdcard/SimpleERP/Planilhas")).mkdir();// Cria o diretório
+            }
+        } catch (Exception ex) {
+            showMessage("Erro");
+        }
+    }
+
+    // UTIL
+    public void accessViews(){
+        llContainerAll = (LinearLayout) findViewById(R.id.llContainerAll);
+        pbContainer = (ProgressBar) findViewById(R.id.pbContainer);
+
+        // CONNECTED
+        llConnected = (RelativeLayout) findViewById(R.id.llConnected);
+        tvLogin = (TextView) findViewById(R.id.login);
+        btNext = (Button) findViewById(R.id.avançar);
+        edNomeEmpresa=(EditText)findViewById(R.id.nomeEmpresa);
+
+        // LISTENER
+
+        btNext.setOnClickListener(MainActivity.this);
+
+    }
+
+    public void showUi(boolean status, boolean statusProgressBar){
+        if(!statusProgressBar){
+            llContainerAll.setVisibility(View.VISIBLE);
+            tvLogin.setVisibility(View.GONE);
+            pbContainer.setVisibility(View.GONE);
+
+
+            llConnected.setVisibility(!status ? View.GONE : View.VISIBLE);
+        }
+        else{
+
+            pbContainer.setVisibility(View.VISIBLE);
+        }
+    }
+
+    // LISTENERS
+    @Override
+    public void onClick(View v) {
+
+        if(v.getId() == btNext.getId()){
+
+            String temp = edNomeEmpresa.getText().toString();
+            temp=temp.trim();
+            if(temp.equals("")){
+                showMessage("Não é Permitido Campo em Branco");
+            }
+            else{
+                Usuario u = new Usuario();
+                u.setNome(temp);
+                u.setEmail(mAccountName);
+                sistema.login(u);
+                Intent it = new Intent(this,MenuPrincipal.class);
+                startActivity(it);
+                super.finish();
+            }
+
+        }
+
+    }
+
+    public void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+
+        if(googleApiClient != null){
+            googleApiClient.connect();
+        }
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+
+        if(googleApiClient != null && googleApiClient.isConnected()){
+            googleApiClient.disconnect();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode == SIGN_IN_CODE){
+
+            if(resultCode != RESULT_OK){
+                resolveSignIn();
+            }
+
+            if(!googleApiClient.isConnecting()){
+                googleApiClient.connect();
+            }
+        }
+    }
+
+    public void resolveSignIn(){
+        if(connectionResult != null && connectionResult.hasResolution()){
+            try {
+                connectionResult.startResolutionForResult(MainActivity.this, SIGN_IN_CODE);
+            }
+            catch(IntentSender.SendIntentException e) {
+                googleApiClient.connect();
+            }
+        }
+    }
+
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        if(googleApiClient.isConnected()){
+            showUi(true, false);
+            mAccountName = Plus.AccountApi.getAccountName(googleApiClient);
+            showMessage("Conectado "+ mAccountName + " No Drive");
+
+        }else{
+            resolveSignIn();
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int cause) {
+        googleApiClient.connect();
+        showUi(false, false);
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        if(!result.hasResolution()){
+            GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), MainActivity.this, 0).show();
+            return;
+        }
+        connectionResult = result;
+        resolveSignIn();
+    }
+    public GoogleApiClient getGoogleApiClient() {
+        return googleApiClient;
     }
 }

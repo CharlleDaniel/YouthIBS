@@ -118,10 +118,17 @@ public class CadAvisos extends AppCompatActivity {
             Point size = new Point();
             display.getSize(size);
             Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
-            Bitmap resize= Bitmap.createScaledBitmap(bitmap, size.x, size.y / 2, true);
-
             ImageView foto = (ImageView)findViewById(R.id.ivAviso);
-            foto.setImageBitmap(resize);
+            Bitmap resize;
+            if(bitmap.getHeight()>bitmap.getWidth()){
+                resize= Bitmap.createScaledBitmap(bitmap, size.x/2, size.y/2, true);
+                foto.setImageBitmap(resize);
+
+            }else{
+                resize= Bitmap.createScaledBitmap(bitmap, size.x, size.y / 2, true);
+                foto.setImageBitmap(resize);
+
+            }
 
             ByteArrayOutputStream saida = new ByteArrayOutputStream();
             resize.compress(Bitmap.CompressFormat.JPEG, 100, saida);

@@ -3,14 +3,18 @@ package com.youthibs.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.youthibs.Control.YouthControl;
 import com.youthibs.MainActivity;
+import com.youthibs.MenuPrincipal;
 import com.youthibs.R;
 import com.youthibs.adapters.AvisosAdapter;
 
@@ -18,7 +22,7 @@ import com.youthibs.adapters.AvisosAdapter;
 /**
  * Created by CharlleNot on 09/10/2015.
  */
-public class FragPublicacao extends Fragment implements AdapterView.OnItemClickListener {
+public class FragPublicacao extends Fragment {
 
 
     private View view;
@@ -34,19 +38,20 @@ public class FragPublicacao extends Fragment implements AdapterView.OnItemClickL
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frag_layout_publicacao, container, false);
-        sistema= MainActivity.sistema;
+        sistema= MenuPrincipal.sistema;
         accessViews();
         return view;
 
     }
     public void  accessViews(){
         lvAvisos= (ListView)view.findViewById(R.id.lvPublicacoes);
+
+
     }
 
     public void buildAvisos(){
-        this.lvAvisos.setOnItemClickListener(this);
         registerForContextMenu(lvAvisos);
-        adapter = new AvisosAdapter(getContext(),sistema.getAvisos());
+        adapter = new AvisosAdapter(getContext(),sistema.getAvisos(),getFragmentManager().getFragments().get(0));
         lvAvisos.setAdapter(adapter);
 
     }
@@ -56,8 +61,5 @@ public class FragPublicacao extends Fragment implements AdapterView.OnItemClickL
         super.onResume();
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-    }
 }

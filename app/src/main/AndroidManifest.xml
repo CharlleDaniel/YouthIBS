@@ -21,9 +21,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CadAvisos"
+            android:name=".MenuPrincipal"
             android:parentActivityName=".MainActivity">
         </activity>
+        <activity
+            android:name=".CadAvisos"
+            android:parentActivityName=".MenuPrincipal">
+        </activity>
+
     </application>
 
 </manifest>
