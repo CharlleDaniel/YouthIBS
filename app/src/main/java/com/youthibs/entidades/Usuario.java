@@ -1,5 +1,7 @@
 package com.youthibs.entidades;
 
+import java.util.Date;
+
 /**
  * Created by Thainan on 27/06/15.
  */
@@ -7,9 +9,21 @@ public class Usuario {
     private String nome;
     private String email;
     private String isLog;
+    private String telefone;
+    private Date dataNasc;
     private long id;
+    private byte[] foto;
+
     public Usuario(){
         isLog= "false";
+    }
+
+    public byte[] getFoto() {
+        return foto;
+    }
+
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
     }
 
     public String getNome() {

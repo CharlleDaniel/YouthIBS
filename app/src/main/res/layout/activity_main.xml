@@ -13,43 +13,50 @@
 
     <!-- LOADING -->
 
-    <LinearLayout
-        android:id="@+id/llContainerAll"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_gravity="left|top"
-        android:visibility="visible"
-        android:background="@color/white">
+        android:id="@+id/scrollView2" >
 
-        <ImageView
-            android:layout_width="177dp"
-            android:layout_height="145dp"
-            android:id="@+id/imageView"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/logo_menu"
-            android:layout_marginTop="50dp"
-            android:visibility="visible" />
+        <LinearLayout
+            android:id="@+id/llContainerAll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="left|top"
+            android:visibility="visible"
+            android:background="@color/white">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Login..."
-            android:id="@+id/login"
-            android:layout_gravity="center_horizontal"
-            android:visibility="visible" />
+            <ImageView
+                android:layout_width="177dp"
+                android:layout_height="145dp"
+                android:id="@+id/imageView"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/logo_menu"
+                android:layout_marginTop="50dp"
+                android:visibility="visible"
+                android:tint="#000000" />
 
-        <!-- PROFILE -->
-        <include layout="@layout/include_main_profile" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Login..."
+                android:id="@+id/login"
+                android:layout_gravity="center_horizontal"
+                android:visibility="visible" />
 
-        <ProgressBar
-            android:id="@+id/pbContainer"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            android:layout_marginTop="60dp" />
+            <!-- PROFILE -->
+            <include layout="@layout/include_main_profile" />
 
-    </LinearLayout>
+            <ProgressBar
+                android:id="@+id/pbContainer"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="60dp" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>

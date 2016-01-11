@@ -8,6 +8,8 @@ import com.youthibs.entidades.Usuario;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Charlle Daniel on 29/12/2015.
@@ -71,5 +73,18 @@ public class YouthControl {
             }
         }
         return this.usuarioLogado;
+    }
+    //Text
+    public String upCaseAllFirstChar(String txt){
+        String temp="";
+        Pattern p = Pattern.compile("[a-zA-Zà-úÀ-Ú]+");
+        Matcher m = p.matcher(txt);
+        boolean test = m.find();
+        while (test==true){
+            String parte = m.group();
+            temp=temp+(parte.substring(0,1).toUpperCase())+(parte.substring(1, parte.length()))+" ";
+            test = m.find();
+        }
+        return temp;
     }
 }

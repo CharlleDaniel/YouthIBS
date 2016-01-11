@@ -11,26 +11,65 @@
 
     <ImageView
         android:id="@+id/ivProfile"
-        android:layout_width="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        android:src="@drawable/add_user"
+        android:layout_below="@+id/textView2"
+        android:layout_toLeftOf="@+id/nome"
+        android:layout_toStartOf="@+id/nome"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="35dp"
-        android:layout_marginLeft="5dp"
-        android:layout_below="@+id/textView2" />
+        android:clickable="true"
+        android:id="@+id/relativeLayout3"
+        android:contextClickable="false"
+        android:focusable="false"
+        android:foregroundGravity="center_vertical"
+        android:nestedScrollingEnabled="false"
+        android:onClick="addFoto"
+        android:background="@color/white"
+        android:layout_below="@+id/ivProfile"
+        android:layout_toLeftOf="@+id/editText2"
+        android:layout_toStartOf="@+id/editText2"
+        android:layout_marginLeft="5dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView2"
+            android:src="@android:drawable/ic_menu_search"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:tint="@color/colorPrimaryDark" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Procurar Foto"
+            android:id="@+id/textView3"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imageView2"
+            android:layout_toEndOf="@+id/imageView2"
+            android:textColor="@android:color/black"
+            android:textSize="12dp" />
+    </RelativeLayout>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/nomeEmpresa"
-        android:layout_alignBottom="@+id/ivProfile"
-        android:layout_toRightOf="@+id/ivProfile"
-        android:layout_toEndOf="@+id/ivProfile"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="5dp"
-        android:hint="Nome da Empresa"
+        android:id="@+id/nome"
+        android:hint="Nome"
         android:maxLines="1"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:layout_alignTop="@+id/ivProfile"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_marginRight="10dp" />
 
     <Button
         android:id="@+id/avançar"
@@ -39,21 +78,47 @@
         android:text="Avançar"
         android:layout_gravity="right"
         android:textColor="#ffffffff"
-        android:layout_below="@+id/nomeEmpresa"
-        android:layout_alignRight="@+id/nomeEmpresa"
-        android:layout_alignEnd="@+id/nomeEmpresa"
         android:clickable="true"
-        android:enabled="true" />
+        android:enabled="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/butons_rounded_corners"
+        style="bu"
+        android:layout_below="@+id/editText2"
+        android:layout_alignRight="@+id/nome"
+        android:layout_alignEnd="@+id/nome" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Bem Vindo "
+        android:text="Bem Vindo!!!"
         android:id="@+id/textView2"
         android:layout_gravity="center_horizontal"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:textStyle="italic" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/dataNasc"
+        android:layout_below="@+id/nome"
+        android:layout_alignLeft="@+id/nome"
+        android:hint="Data Nascimento"
+        android:maxLength="10"
+        android:inputType="numberSigned" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:id="@+id/editText2"
+        android:layout_below="@+id/dataNasc"
+        android:layout_alignLeft="@+id/dataNasc"
+        android:hint="Telefone"
+        android:maxLength="14" />
 
 </RelativeLayout>

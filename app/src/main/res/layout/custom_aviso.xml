@@ -9,15 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ivAvisoV"
-        android:layout_below="@+id/tvTitleV"
         android:focusableInTouchMode="false"
         android:focusable="false"
+        android:layout_below="@+id/tvTitleV"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="5dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="5dp" />
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,32 +27,103 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="5dp"
-        android:textColor="@android:color/black" />
+        android:textColor="@color/colorPrimary"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:typeface="monospace" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Texttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt"
         android:id="@+id/tvTextV"
-        android:layout_below="@+id/ivAvisoV"
-        android:layout_alignLeft="@+id/tvTitleV"
-        android:layout_alignStart="@+id/tvTitleV"
         android:nestedScrollingEnabled="false"
         android:maxLength="255"
-        android:layout_marginRight="10dp"
         android:textColor="@android:color/black"
-        android:layout_marginBottom="10dp" />
+        android:layout_below="@+id/imageView6"
+        android:layout_alignLeft="@+id/view"
+        android:layout_alignStart="@+id/view"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/colorDivider"
+        android:layout_below="@+id/ivParticipar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/view" />
 
-    <Button
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="30dp"
+        android:id="@+id/ivParticipar"
+        android:src="@drawable/icon_like"
+        android:layout_below="@+id/ivAvisoV"
+        android:layout_toRightOf="@+id/imageView6"
+        android:layout_toEndOf="@+id/imageView6"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp" />
+
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TESTE"
-        android:id="@+id/btOptions"
-        android:layout_below="@+id/tvTextV"
-        android:layout_alignRight="@+id/tvTextV"
-        android:layout_alignEnd="@+id/tvTextV"
-        android:clickable="true"
-        android:enabled="true"
-        android:nestedScrollingEnabled="false"
-        android:onClick="buttonClick" />
+        android:id="@+id/ivMenu"
+        android:src="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha"
+        android:tint="@color/colorDivider"
+        android:layout_alignBottom="@+id/ivParticipar"
+        android:layout_alignRight="@+id/view"
+        android:layout_alignEnd="@+id/view"
+        android:background="@android:color/transparent"
+        android:clickable="true" />
+
+    <ImageView
+        android:layout_width="10dp"
+        android:layout_height="15dp"
+        android:id="@+id/imageView6"
+        android:src="@drawable/icon_like"
+        android:tint="@color/colorPrimary"
+        android:layout_below="@+id/view"
+        android:layout_alignLeft="@+id/tvTextV"
+        android:layout_alignStart="@+id/tvTextV"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:id="@+id/qtdParticipantes"
+        android:textColor="@color/colorPrimary"
+        android:layout_alignBottom="@+id/imageView6"
+        android:layout_toRightOf="@+id/imageView6"
+        android:layout_toEndOf="@+id/imageView6"
+        android:layout_marginLeft="5dp"
+        android:textSize="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Participantes"
+        android:id="@+id/textView10"
+        android:textColor="@color/colorPrimary"
+        android:layout_alignTop="@+id/qtdParticipantes"
+        android:layout_toRightOf="@+id/qtdParticipantes"
+        android:layout_toEndOf="@+id/qtdParticipantes"
+        android:layout_marginLeft="5dp"
+        android:textSize="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/tvTime"
+        android:layout_alignTop="@+id/tvTitleV"
+        android:layout_alignRight="@+id/view"
+        android:layout_alignEnd="@+id/view"
+        android:layout_marginTop="5dp" />
+
 </RelativeLayout>
