@@ -12,6 +12,7 @@ import android.support.v7.widget.PopupMenu;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -95,7 +96,7 @@ public class AvisosAdapter extends BaseAdapter {
         btO.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopup(v);
+                showPopup(v,aviso);
             }
         });
 
@@ -178,15 +179,25 @@ public class AvisosAdapter extends BaseAdapter {
         }
         return txt;
     }
-    public void showPopup(View v) {
+    public void showPopup(View v,final Aviso aviso) {
         PopupMenu popup = new PopupMenu(context, v);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.menu_main, popup.getMenu());
         popup.getMenu().removeItem(R.id.action_settings);
-        popup.getMenu().add(1,21,1,"Excluir");
+        popup.getMenu().add(1, 21, 1, "Excluir");
         popup.show();
 
 
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId()==21){
+                    sistema.removeAviso(aviso);
+                    frag.onResume();
+                }
+                return false;
+            }
+        });
     }
 
 }

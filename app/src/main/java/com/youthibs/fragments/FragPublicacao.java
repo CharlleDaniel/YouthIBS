@@ -51,6 +51,8 @@ public class FragPublicacao extends Fragment {
 
     public void buildAvisos(){
         registerForContextMenu(lvAvisos);
+        lvAvisos.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
+        lvAvisos.setVerticalScrollBarEnabled(false);
         adapter = new AvisosAdapter(getContext(),sistema.getAvisos(),getFragmentManager().getFragments().get(0));
         lvAvisos.setAdapter(adapter);
 

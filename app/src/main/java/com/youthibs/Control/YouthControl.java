@@ -6,6 +6,7 @@ import com.youthibs.database.BD;
 import com.youthibs.entidades.Aviso;
 import com.youthibs.entidades.Usuario;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -27,7 +28,12 @@ public class YouthControl {
     }
 
     public void addAviso(Aviso a){
-        avisos.add(a);
+        List<Aviso>temp= new LinkedList<>();
+        String txtTitle=a.getTitle();
+        a.setTitle(upCaseAllFirstChar(txtTitle));
+        temp.add(a);
+        temp.addAll(avisos);
+        avisos=temp;
     }
     public List<Aviso> getAvisos(){
         return avisos;
